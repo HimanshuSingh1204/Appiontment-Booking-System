@@ -1,6 +1,7 @@
 {
   "name": "appointment-booking",
   "version": "0.1.0",
+  "homepage": "https://HimanshuSingh1204.github.io/Appiontment-Booking-System/",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.14.0",
