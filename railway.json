@@ -1,0 +1,9 @@
+{
+  "projectId": "replace-with-your-railway-project-id",
+  "services": [
+    {
+      "name": "backend",
+      "path": "AppiomentBookingSystem1"
+    }
+  ]
+}

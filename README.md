@@ -26,11 +26,11 @@ REST API
 Database
 MySQL
 📂 Project Structure
-appointment-booking-system
+AppointmentsBookingSystem
 │
-├── frontend
-├── backend
-└── database
+├── AppiomentBookingSystem1   (Spring Boot backend)
+├── AppointmentBookingSys/appointment-booking   (React frontend)
+└── database.sql
 ⚙️ Installation
 Backend Setup
 cd backend
@@ -68,5 +68,31 @@ Online Video Consultation
 👨‍💻 Author
 
 Himanshu Singh
+
+GitHub:
+
+## Live deployment
+This repository is configured for automatic deployment with GitHub Actions.
+
+### Backend (Railway)
+- Push to `main` and Railway will build the backend from `AppiomentBookingSystem1`
+- Add these GitHub Secrets:
+  - `RAILWAY_API_KEY`
+  - `RAILWAY_PROJECT_ID`
+  - `RAILWAY_SERVICE_ID`
+- The backend reads configuration from environment variables.
+
+### Frontend (Vercel)
+- Push to `main` and Vercel can build the frontend from `AppointmentBookingSys/appointment-booking`
+- Add these GitHub Secrets:
+  - `VERCEL_TOKEN`
+  - `VERCEL_ORG_ID`
+  - `VERCEL_PROJECT_ID`
+  - `REACT_APP_API_URL`
+
+### Notes
+- The app is ready to deploy live as soon as the above secrets are set.
+- The `vercel.json` file is included for React production build routing.
+- The `railway.json` file is included to help configure the Railway backend service.
 
 GitHub:
