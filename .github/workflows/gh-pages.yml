@@ -1,4 +1,4 @@
-name: Deploy Frontend to GitHub Pages
+name: Deploy Frontend to GitHub Pages and Backend to Railway
 
 on:
   push:
@@ -11,7 +11,38 @@ permissions:
   id-token: write
 
 jobs:
-  build-and-deploy:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build backend
+        working-directory: AppiomentBookingSystem1
+        run: |
+          chmod +x ./mvnw
+          ./mvnw clean package -DskipTests
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install frontend dependencies
+        working-directory: AppointmentBookingSys/appointment-booking
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: AppointmentBookingSys/appointment-booking
+        run: npm run build
+
+  deploy-frontend:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,11 +52,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         working-directory: AppointmentBookingSys/appointment-booking
         run: npm ci
 
-      - name: Build React app
+      - name: Build frontend
         working-directory: AppointmentBookingSys/appointment-booking
         run: npm run build
 
@@ -35,3 +66,19 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./AppointmentBookingSys/appointment-booking/build
           cname: false
+
+  deploy-backend:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Railway
+        uses: BayraktarSoftware/raylway-deployer@main
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        with:
+          environment: production
+          service: backend
+
