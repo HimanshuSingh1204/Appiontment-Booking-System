@@ -1,0 +1,18 @@
+{
+  "version": 3,
+  "installCommand": "cd AppointmentBookingSys/appointment-booking && npm install",
+  "buildCommand": "cd AppointmentBookingSys/appointment-booking && npm run build",
+  "outputDirectory": "AppointmentBookingSys/appointment-booking/build",
+  "builds": [
+    {
+      "src": "AppointmentBookingSys/appointment-booking/package.json",
+      "use": "@vercel/static-build"
+    }
+  ],
+  "routes": [
+    {
+      "src": "(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
